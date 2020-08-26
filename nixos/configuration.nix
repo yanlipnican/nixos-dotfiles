@@ -18,6 +18,7 @@
 
   networking.hostName = "acer-nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
+  programs.nm-applet.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.nameservers = [ "1.1.1.1" ];
   
@@ -44,6 +45,15 @@
 
   environment.variables.TERMINAL="alacritty";
 
+  nixpkgs.config = {
+    packageOverrides = pkgs: rec {
+      polybar = pkgs.polybar.override {
+        i3GapsSupport = true;
+        # i3Support = true;
+      };
+    };
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -57,10 +67,14 @@
     zsh
     oh-my-zsh
     htop
+    polybar
+    rofi
+    calc
   ];
 
   fonts.fonts = with pkgs; [
     powerline-fonts
+    font-awesome
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -105,13 +119,12 @@
   services.xserver.desktopManager = {
     xterm.enable = false;
   };
+
   services.xserver.windowManager.i3 = {
     enable = true;
+    package = pkgs.i3-gaps;
     extraPackages = with pkgs; [
-      dmenu
-      i3status
-      i3lock
-      i3blocks
+      # dmenu
     ];
   };
 
