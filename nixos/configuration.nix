@@ -16,6 +16,10 @@
 
   # boot.plymouth.enable = true;
 
+  # Keyring
+  services.gnome3.gnome-keyring.enable = true;
+  security.pam.services.lightdm.enableGnomeKeyring = true;
+
   networking.hostName = "acer-nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
